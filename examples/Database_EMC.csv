@@ -1,0 +1,27 @@
+Functional Group,Vibration Mode,Peak Position (cm-1),Peak Position Tolerance (cm-1),FWHM (cm-1),FWHM Tolerance (cm-1)
+BMI,C=O Symmetric Stretching,1771,15,30,20
+BMI,C=O Asymmetric Stretching,1710,10,40,20
+Anhydride,C=O Symmetric Stretching,1860,10,25,10
+Anhydride,C=O Asymmetric Stretching,1780,10,35,10
+Ester,C=O Stretching,1740,5,45,15
+Ester,C-C-O Stretching,1205,10,30,20
+Acrylate/Methacrylate,C=O Stretching,1721,5,45,20
+Acrylate/Methacrylate,C-C-O Stretching,1185,15,60,20
+Methacrylate,C-H Wagging,950,10,27,10
+Isocyanurate,C=O Stretching,1686,10,35,15
+Isocyanurate,Ring Mode,1450,5,35,15
+PPO,C-O Asymmetric Stretching,1190,5,30,10
+Epoxy,Ring Breathing,1245,15,40,20
+CE,O-C¡ÝN Symmetric Stretching,2270,5,40,10
+CE,O-C¡ÝN Asymmetric Stretching,2230,10,20,10
+Vinyl,C-H Wagging(1),990,5,15,10
+Vinyl,C-H Wagging(2),907,5,20,10
+Methyl,CH3 Asymmetric Stretching,2962,10,20,10
+Methyl,CH3 Symmetric Stretching,2872,10,20,10
+Methyl,CH3 Umbrella mode,1375,10,20,20
+Methylene,CH2 Asymmetric Stretching,2926,10,20,10
+Methylene,CH2 Symmetric Stretching,2855,10,20,10
+Long C-C Chain,CH2 Asymmetric Stretching,2925,2,60,10
+Long C-C Chain,CH2 Asymmetric Stretching,2853,3,25,10
+SiO2,Si-O-Si Stretching,1123,80,160,130
+SiO2,Si-O-Si Bending,481,10,50,20
