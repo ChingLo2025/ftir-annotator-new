@@ -15,7 +15,7 @@ DEFAULTS = {
     "w_f": 0.2,
     "scale": 1.0,      # Tolerance Scale
     "threshold": 0.5,  # Score Threshold：僅決定 Step 5 預設選擇
-    "k_pos": 2.0,
+    "k_position": 2.0,
     "k_fwhm": 3.0,
 }
 
@@ -44,7 +44,7 @@ def match_peaks(peaks_df: pd.DataFrame, db_df: pd.DataFrame, params: dict) -> di
     for _, pk in peaks_df.iterrows():
         cands: list[dict] = []
         for db_i, r in db_df.iterrows():
-            score_pos = _band_score(pk["position"], r["position"], s * r["position_tol"], params["k_pos"])
+            score_pos = _band_score(pk["position"], r["position"], s * r["position_tol"], params["k_position"])
             if score_pos <= 0:
                 continue  # 位置分 > 0 才是候選
             if not np.isnan(r["fwhm"]):

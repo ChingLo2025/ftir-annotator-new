@@ -20,58 +20,93 @@ def render():
 
     # ── Left: controls ────────────────────────────────────────────────────────
     with ctrl_col:
-        st.subheader("前處理")
+        st.subheader("Preprocessing")
 
-        pp["baseline_on"] = st.checkbox("基線校正 (ALS)", value=pp["baseline_on"])
+        pp["baseline_on"] = st.checkbox(
+            "Baseline Correction (ALS)",
+            value=pp["baseline_on"],
+            help="Removes slowly varying baseline drift. Larger λ = smoother, more global correction. Smaller λ = more local, follows the spectrum more closely.",
+        )
         if pp["baseline_on"]:
             pp["lam"] = st.select_slider(
                 "λ (lambda)",
                 options=preprocess.LAM_OPTIONS,
                 value=pp["lam"],
                 format_func=lambda x: f"{x:.0e}",
+                help="Smoothness of the baseline. Larger = smoother baseline. Smaller = baseline follows local features.",
             )
-            pp["p"] = st.select_slider("p", options=preprocess.P_OPTIONS, value=pp["p"])
+            pp["p"] = st.select_slider(
+                "p",
+                options=preprocess.P_OPTIONS,
+                value=pp["p"],
+                help="Asymmetry parameter. Smaller = baseline stays below peaks (ignores them more). Larger = baseline tracks the signal more symmetrically.",
+            )
             pp["diff_order"] = st.radio(
                 "Diff Order",
                 [1, 2, 3],
                 index=int(pp["diff_order"]) - 1,
                 horizontal=True,
+                help="Derivative order for the penalty term. Higher = penalises curvature more strongly, producing a flatter baseline.",
             )
 
         st.markdown("---")
 
-        pp["smooth_on"] = st.checkbox("平滑 (Savitzky-Golay)", value=pp["smooth_on"])
+        pp["smooth_on"] = st.checkbox(
+            "Smoothing (Savitzky-Golay)",
+            value=pp["smooth_on"],
+            help="Reduces noise while preserving peak shape. Larger window = more smoothing (may broaden peaks). Smaller window = less smoothing (more noise retained).",
+        )
         if pp["smooth_on"]:
             raw_w = int(pp["window"])
             init_w = raw_w if raw_w % 2 == 1 else raw_w + 1
-            pp["window"] = st.slider("Window 長度（奇數）", 5, 51, init_w, step=2)
-            pp["polyorder"] = st.slider("Polyorder", 2, 5, int(pp["polyorder"]))
+            pp["window"] = st.slider(
+                "Window Length (odd)",
+                5, 51, init_w, step=2,
+                help="Width of the smoothing window (must be odd). Larger = more noise reduction but can broaden peaks. Smaller = preserves narrow peaks but retains more noise.",
+            )
+            pp["polyorder"] = st.slider(
+                "Polyorder",
+                2, 5, int(pp["polyorder"]),
+                help="Polynomial order for curve fitting within the window. Higher = better peak shape preservation. Lower = more aggressive smoothing.",
+            )
 
         st.markdown("---")
         st.subheader("Peak Picking")
 
         pk["prominence_pct"] = st.slider(
-            "Prominence (%)", 0.05, 20.0, float(pk["prominence_pct"]), step=0.05
+            "Prominence (%)", 0.05, 20.0, float(pk["prominence_pct"]), step=0.05,
+            help="Minimum peak prominence relative to the signal range. Larger = only tall, distinct peaks detected. Smaller = more peaks detected (including noise peaks).",
         )
-        pk["use_min_height"] = st.checkbox("啟用最小峰高", value=pk["use_min_height"])
+        pk["use_min_height"] = st.checkbox(
+            "Enable Min Peak Height",
+            value=pk["use_min_height"],
+            help="Toggle filtering by absolute peak height. Enable to exclude weak peaks below a set threshold.",
+        )
         if pk["use_min_height"]:
             pk["min_height"] = st.number_input(
-                "Min Height (反轉訊號絕對值)",
+                "Min Height",
                 value=float(pk["min_height"]),
                 min_value=0.0,
                 step=0.5,
+                help="Minimum absolute intensity of a peak (inverted signal). Larger = only stronger peaks accepted. Smaller = weaker peaks also included.",
             )
         pk["min_spacing"] = st.slider(
-            "最小峰間距 (cm⁻¹)", 0.0, 50.0, float(pk["min_spacing"]), step=1.0
+            "Min Peak Spacing (cm⁻¹)", 0.0, 50.0, float(pk["min_spacing"]), step=1.0,
+            help="Minimum distance between two adjacent peaks. Larger = fewer peaks (nearby peaks merged into one). Smaller = more peaks detected separately.",
         )
-        pk["use_fwhm_filter"] = st.checkbox("FWHM 濾波", value=pk["use_fwhm_filter"])
+        pk["use_fwhm_filter"] = st.checkbox(
+            "FWHM Filter",
+            value=pk["use_fwhm_filter"],
+            help="Filter peaks by full-width at half-maximum (peak width). Excludes peaks that are too narrow or too broad.",
+        )
         if pk["use_fwhm_filter"]:
             fmin, fmax = st.slider(
-                "FWHM 範圍 (cm⁻¹)",
+                "FWHM Range (cm⁻¹)",
                 0.0,
                 500.0,
                 (float(pk["fwhm_min"]), float(pk["fwhm_max"])),
                 step=1.0,
+                help="Allowed range of FWHM values. Peaks outside this range are excluded. Adjust to target peaks of a specific width.",
             )
             pk["fwhm_min"] = fmin
             pk["fwhm_max"] = fmax

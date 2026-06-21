@@ -8,7 +8,7 @@ def render():
     st.header("Step 1 — 載入 FTIR 光譜")
 
     uploaded = st.file_uploader(
-        "上傳光譜 CSV（%T 格式，首列為儀器 metadata，次列為 cm-1,%T 標頭）",
+        "上傳光譜 CSV（請使用PerkinElmer預設輸出格式，第二列為cm-1,%T，第三列起為data）",
         type="csv",
         key="s1_upload",
     )

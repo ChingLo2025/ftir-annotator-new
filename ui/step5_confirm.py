@@ -24,7 +24,7 @@ def _reset_selectbox_keys(peaks_df, candidates, sel):
 
 
 def render():
-    st.header("Step 5 — 確認 Annotation")
+    st.header("Step 5 — Annotation Confirmation")
 
     # ── Step 5 → Step 4 警告 ──────────────────────────────────────────────────
     if st.session_state.get("_warn_back", False):

@@ -9,8 +9,8 @@ STEP_NAMES = [
     "1. 載入光譜",
     "2. 選擇資料庫",
     "3. Peak Picking",
-    "4. 預覽",
-    "5. 確認",
+    "4. Annotation Preview",
+    "5. Annotation Confirmation",
     "6. 匯出",
 ]
 

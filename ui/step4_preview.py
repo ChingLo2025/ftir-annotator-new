@@ -1,4 +1,4 @@
-"""Step 4 — Annotation 預覽（唯讀，純參數調整）。"""
+"""Step 4 — Annotation Preview."""
 import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
@@ -8,7 +8,7 @@ from core import matching, peak_picking, preprocess
 
 
 def render():
-    st.header("Step 4 — Annotation 預覽（唯讀）")
+    st.header("Step 4 — Annotation Preview")
 
     spec = st.session_state.spectrum
     wn = spec["df"]["wavenumber"].values
@@ -21,22 +21,33 @@ def render():
     peaks_df = peak_picking.pick_peaks(wn, result["y_processed"], st.session_state.params_peak)
 
     # ── Matching parameter controls ───────────────────────────────────────────
-    with st.expander("比對參數（調整後即時重算）", expanded=True):
+    with st.expander("Matching Parameters (auto-recalculates)", expanded=True):
         c1, c2, c3, c4, c5 = st.columns(5)
         with c1:
-            pm["w_f"] = st.slider("w_f（FWHM 權重）", 0.0, 1.0, float(pm["w_f"]), step=0.05)
+            pm["w_f"] = st.slider(
+                "w_f (FWHM Weight)", 0.0, 1.0, float(pm["w_f"]), step=0.05,
+                help="Weight of FWHM similarity in the total score. Larger = FWHM match is more important. Smaller = peak position match dominates.",
+            )
         with c2:
             pm["scale"] = st.slider(
-                "Tolerance Scale", 0.5, 3.0, float(pm["scale"]), step=0.1
+                "Tolerance Scale", 0.5, 3.0, float(pm["scale"]), step=0.1,
+                help="Scales all matching tolerance windows proportionally. Larger = more lenient matching (wider search radius). Smaller = stricter position and FWHM requirements.",
             )
         with c3:
             pm["threshold"] = st.slider(
-                "Score Threshold", 0.0, 1.0, float(pm["threshold"]), step=0.05
+                "Score Threshold", 0.0, 1.0, float(pm["threshold"]), step=0.05,
+                help="Minimum score required for a candidate to be auto-assigned in Step 5. Larger = only high-confidence matches are auto-assigned. Smaller = more peaks receive an auto-assignment.",
             )
         with c4:
-            pm["k_pos"] = st.slider("k_pos", 1.0, 5.0, float(pm["k_pos"]), step=0.5)
+            pm["k_position"] = st.slider(
+                "k_position", 1.0, 5.0, float(pm["k_position"]), step=0.5,
+                help="Hard cutoff multiplier for position scoring. Score drops linearly beyond the tolerance window and reaches zero at k_position × tolerance. Larger = wider acceptable range. Smaller = score drops to zero sooner.",
+            )
         with c5:
-            pm["k_fwhm"] = st.slider("k_fwhm", 1.0, 6.0, float(pm["k_fwhm"]), step=0.5)
+            pm["k_fwhm"] = st.slider(
+                "k_fwhm", 1.0, 6.0, float(pm["k_fwhm"]), step=0.5,
+                help="Hard cutoff multiplier for FWHM scoring. Score drops linearly beyond the FWHM tolerance and reaches zero at k_fwhm × tolerance. Larger = wider acceptable FWHM range. Smaller = stricter FWHM requirement.",
+            )
 
     # ── Run matching ──────────────────────────────────────────────────────────
     candidates = matching.match_peaks(peaks_df, db_df, pm)

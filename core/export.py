@@ -115,7 +115,7 @@ def build_csv(
     rows.append(_row("w_f", f"{params_match['w_f']:g}"))
     rows.append(_row("Tolerance Scale", f"{params_match['scale']:g}"))
     rows.append(_row("Score Threshold", f"{params_match['threshold']:g}"))
-    rows.append(_row("k_pos", f"{params_match['k_pos']:g}"))
+    rows.append(_row("k_position", f"{params_match['k_position']:g}"))
     rows.append(_row("k_fwhm", f"{params_match['k_fwhm']:g}"))
     rows.append(_row())
 
