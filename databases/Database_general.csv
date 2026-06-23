@@ -1,0 +1,154 @@
+Functional Group,Vibration Mode,Peak Position (cm-1),Peak Position Tolerance (cm-1),FWHM (cm-1),FWHM Tolerance (cm-1)
+Methyl,CH3 Asymmetric Stretching,2962,10,20,10
+Methyl,CH3 Symmetric Stretching,2872,10,20,10
+Methyl/Methylene,C-H Bending,1460,10,20,20
+Methyl,CH3 Umbrella mode,1375,10,20,20
+Methylene,CH2 Asymmetric Stretching,2926,10,20,10
+Methylene,CH2 Symmetric Stretching,2855,10,20,10
+Methoxy,O-C-H Symmetric Stretching,2830,10,20,10
+Long C-C Chain,CH2 Rocking,720,3,20,10
+Aromatic/Alkene,C-H Stretching,3050,50,20,10
+Aromatic,Benzene Summation Bands,1850,75,20,10
+Aromatic,Ring Mode,1510,110,20,10
+Aromatic,C-H Bending (In-Benzene-Plane),1100,100,20,10
+Aromatic,C-H Wagging (No Substitute),674,10,20,10
+Aromatic,C-H Wagging (Mono Substitute),740,30,20,10
+Aromatic,C-H Wagging (Ortho),752,18,20,10
+Aromatic,C-H Wagging (Meta),780,30,20,10
+Aromatic,C-H Wagging (Para),825,35,20,10
+Aromatic,C-C Bending (Monosubstitute or Meta),690,10,20,10
+Alkene,"C=C Stretching (Vinyl, Vinylidene or Cis)",1655,25,20,10
+Alkene,"C=C Stretching (Trans, Trisubstitute or Tetrasubstitute)",1670,10,20,10
+Alkene,C-H Wagging (Vinyl #1),990,5,15,10
+Alkene,C-H Wagging (Vinyl #2),907,5,20,10
+Alkene,C-H Wagging (Allyl #1),985,5,15,10
+Alkene,C-H Wagging (Allyl #2),927,8,20,10
+Alkene,C-H Wagging (Vinylidene),890,5,20,10
+Alkene,C-H Wagging (Cis),690,50,20,10
+Alkene,C-H Wagging (Trans),965,5,20,10
+Alkene,C-H Wagging (Trisubstitute),815,25,20,10
+Alkyne,C  C-H Stretching,3300,50,20,10
+Alkyne,C  C Stretching (Disubstitute),2225,35,20,10
+Alkyne,C  C Stretching (Monosubstitute),2120,20,20,10
+Alkyne,C  C-H Wagging,650,50,20,10
+Hydroxyl,O-H Stretching,3350,50,200,100
+Hydroxyl,O-H Scissor,1630,50,100,50
+Hydroxyl,O-H Bending (In-Plane),1350,50,100,50
+Hydroxyl,C-C-O stretching  (Primary Alcohol),1037,38,100,50
+Hydroxyl,C-C-O stretching  (Secondary Alcohol),1112,38,100,50
+Hydroxyl,C-C-O stretching  (Primary Alcohol),1155,55,100,50
+Hydroxyl,C-C-O stretching  (Primary Alcohol),1230,30,100,50
+Ether,C-O-C Symmetric Stretching,855,35,20,10
+Ether,C-O-C Asmmetric Stretching (Alkyl Ether),1105,35,20,10
+Ether,C-O-C Asmmetric Stretching (Aryl Ether),1250,50,20,10
+Ether,C-O-C Asmmetric Stretching (Aryl/Alkyl Mixed Ether #2),1030,20,20,10
+Ether,C-O-C Asmmetric Stretching (Aryl/Alkyl Mixed Ether #1),1250,50,20,10
+Ketone,C=O Stretching (Saturated),1715,10,40,20
+Ketone,C=O Stretching (Conjugated),1670,30,40,20
+Ketone,C-C-C Stretching (Saturated),1165,65,30,20
+Ketone,C-C-C Stretching (Conjugated),1265,35,30,20
+Aldehyde,C-H Stretching,2775,75,20,10
+Aldehyde,C=O Stretching (Saturated),1730,10,40,20
+Aldehyde,C=O Stretching (Conjugated),1698,13,40,20
+Aldehyde,C-C Stretching (Conjugated),1185,25,30,20
+Aldehyde,C-C Bending,1390,10,30,20
+Carboxylic Acid,O-H Stretching,3000,500,400,200
+Carboxylic Acid,Overtone/Summation Bands,2650,150,40,20
+Carboxylic Acid,C=O Stretching (Saturated),1715,15,40,20
+Carboxylic Acid,C=O Stretching (Conjugated),1695,15,40,20
+Carboxylic Acid,C-O Stretching (Saturated),1265,50,40,20
+Carboxylic Acid,O-H Wagging,930,30,100,50
+Cyclic Anhydride,C=O Symmetric Stretching (Saturated),1857,13,40,20
+Cyclic Anhydride,C=O Symmetric Stretching (Unsaturated),1850,10,40,20
+Cyclic Anhydride,C=O Asymmetric Stretching (Saturated),1787,13,40,20
+Cyclic Anhydride,C=O Asymmetric Stretching (Unsaturated),1770,10,40,20
+Cyclic Anhydride,C-O Stretching,1150,150,20,10
+Cyclic Anhydride,C-C Stretching,920,40,20,10
+Noncyclic Anhydride,C=O Symmetric Stretching (Saturated),1820,5,40,20
+Noncyclic Anhydride,C=O Symmetric Stretching (Unsaturated),1775,5,40,20
+Noncyclic Anhydride,C=O Asymmetric Stretching (Saturated),1750,5,40,20
+Noncyclic Anhydride,C=O Asymmetric Stretching (Unsaturated),1720,5,40,20
+Noncyclic Anhydride,C-O Stretching,1047,13,20,10
+Carboxylate,CO2 Asymmetric Stretching,1595,55,40,20
+Carboxylate,CO2 Symmetric Stretching,1405,45,40,20
+Ester,C=O Stretching (Saturated),1745,10,45,15
+Ester,C=O Stretching (Unsaturated),1722,8,45,15
+Ester,C-C-O Stretching (Saturated),1185,25,30,20
+Ester,C-C-O Stretching (Unsaturated),1280,30,30,20
+Ester,O-C-C Stretching (Saturated),1065,35,30,20
+Ester,O-C-C Stretching (Unsaturated),1115,15,30,20
+Organic Carbonate,C=O Stretching (Saturated),1740,10,40,20
+Organic Carbonate,C=O Stretching (UnSaturated),1797,23,40,20
+Organic Carbonate,C=O Stretching (Mixed),1775,15,40,20
+Organic Carbonate,O-C-O Stretching (Saturated),1260,20,30,20
+Organic Carbonate,O-C-O Stretching (UnSaturated),1217,13,30,20
+Organic Carbonate,O-C-O Stretching (Mixed),1230,20,30,20
+Organic Carbonate,O-C-C Stretching,1030,30,30,20
+Primary Amine,NH2 Asymmetric Stretching (Saturated),3365,15,30,20
+Primary Amine,NH2 Symmetric Stretching (Saturated),3295,15,40,20
+Primary Amine,NH2 Asymmetric Stretching (Saturated),3460,40,30,20
+Primary Amine,NH2 Symmetric Stretching (Unsaturated),3380,40,40,20
+Primary Amine,NH2 Scissors,1615,35,30,20
+Primary Amine,C-N Stretching (Saturated),1135,115,20,10
+Primary Amine,C-N Stretching (Unsaturated),1300,50,20,10
+Primary Amine,NH2 Wagging,800,50,30,20
+Secondary Amine,N-H Stretching (Saturated),3300,20,30,20
+Secondary Amine,N-H Stretching (Unsaturated),3400,20,30,20
+Secondary Amine,C-N-C Stretching (Saturated),1155,25,20,10
+Secondary Amine,C-N-C Stretching (Unsaturated),1300,50,20,10
+Secondary Amine,N-H Wagging,725,25,50,20
+Primary Amine Salt,N-H Stretching,3000,200,100,50
+Primary Amine Salt,N-H Bending (#1),1592,33,100,50
+Primary Amine Salt,N-H Bending (#2),1525,25,100,50
+Secondary Amine Salt,N-H Stretching,2850,150,100,50
+Secondary Amine Salt,N-H Bending,1590,30,100,50
+Tertiary Amine Salt,N-H Stretching,2500,200,100,50
+Primary Amide,NH2 Symmetric Stretching,3220,50,40,20
+Primary Amide,NH2 Asymmetric Stretching,3320,50,40,20
+Primary Amide,C=O Stretching,1655,25,40,20
+Primary Amide,NH2 Scissors,1635,15,30,20
+Primary Amide,C-N Stretching,1410,20,30,20
+Primary Amide,NH2 Wagging,675,75,50,20
+Secondary Amide,N-H Stretching,3270,100,40,20
+Secondary Amide,C=O Stretching,1655,25,40,20
+Secondary Amide,N-H Bending (In-Plane),1542,28,40,20
+Secondary Amide,N-H Bending (Out-Of-Plane),715,35,40,20
+Secondary Amide,C-N Stretching,1270,40,40,20
+Imide,N-H Stretching,3200,50,40,20
+Cyclic Imide,C=O Symmetric Stretching,1762,28,40,20
+Cyclic Imide,C=O Asymmetric Stretching,1715,35,40,20
+Noncyclic Imide,C=O Stretching,1705,35,40,20
+Isocyanate,N=C=O Stretching,2260,20,40,20
+Primary Urethanes,NH2 Asymmetric Stretching,3425,25,40,20
+Primary Urethanes,NH2 Symmetric Stretching,3220,20,40,20
+Primary Urethanes,C=O Stretching,1735,5,40,20
+Primary Urethanes,NH2 Wagging,1620,10,40,20
+Urethanes,C-O Stretching,1232,33,40,20
+Secondary Urethanes,N-H Stretching,3295,45,40,20
+Secondary Urethanes,C=O Stretching,1722,18,40,20
+Secondary Urethanes,N-H Wagging,1530,10,40,20
+Nitro,N-O Asymmetric Stretching,1525,25,40,20
+Nitro,N-O Symmetric Stretching,1360,30,40,20
+Nitro,O-N-O Scissor,862,28,30,20
+Epoxy,Ring Breathing,1255,25,30,20
+Epoxy,C-O-C Asymmetric Stretching,880,70,30,20
+Epoxy,C-O-C Symmetric Stretching,815,65,30,20
+Halogenated,C-F Stretching,1150,150,40,20
+Halogenated,C-Cl Stretching,700,100,40,20
+Halogenated,C-Br Stretching,600,50,40,20
+Halogenated,C-I Stretching,535,35,40,20
+Inorganic Carbonate,C=O Stretching,1460,50,100,50
+Inorganic Carbonate,C-O Bending (In-Plane),740,10,30,20
+Inorganic Carbonate,C-O Bending (Out-Of-Plane),870,10,30,20
+Inorganic Sulfate,S=O Stretching,1110,30,100,50
+Inorganic Sulfate,S=O Bending,645,35,30,20
+Inorganic Nitrate,N-O Stretching,1350,50,100,50
+Inorganic Nitrate,N-O Bending (In-Plane),720,20,30,20
+Inorganic Nitrate,N-O Bending (Out-Of-Plane),925,15,30,20
+Inorganic Phosphate,P-O Stretching,1050,50,100,50
+Inorganic Phosphate,P-O Bending,550,50,30,20
+Inorganic Silicate,Si-O-H,3450,250,150,100
+Inorganic Silicate,Si-O-Si Assymetric Stretching,1100,100,150,100
+Inorganic Silicate,Si-O Stretching,940,50,150,100
+Inorganic Silicate,Si-O-Si Symetric Stretching,805,50,100,50
+Inorganic Silicate,Si-O-Si Bending,450,50,30,20
