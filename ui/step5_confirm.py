@@ -23,8 +23,29 @@ def _reset_selectbox_keys(peaks_df, candidates, sel):
         st.session_state.pop(f"s5_sel_{pid}", None)
 
 
+_STICKY_CSS = """
+<style>
+section[data-testid="stMain"] div[data-testid="stVerticalBlock"]
+    > div[data-testid="stElementContainer"]:has(> div > div > div[data-testid="stPlotlyChart"]),
+section[data-testid="stMain"] div[data-testid="stVerticalBlock"]
+    > div[data-testid="element-container"]:has(> div > div > div[data-testid="stPlotlyChart"]),
+section[data-testid="stMain"] div[data-testid="stVerticalBlock"]
+    > div:has(> div > div[data-testid="stPlotlyChart"]) {
+    position: sticky;
+    top: 3rem;
+    z-index: 999;
+    background: white;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+    box-shadow: 0 4px 6px -3px rgba(0,0,0,0.12);
+}
+</style>
+"""
+
+
 def render():
     st.header("Step 5 — Annotation Confirmation")
+    st.markdown(_STICKY_CSS, unsafe_allow_html=True)
 
     # ── Step 5 → Step 4 警告 ──────────────────────────────────────────────────
     if st.session_state.get("_warn_back", False):

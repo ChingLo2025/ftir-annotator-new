@@ -1,9 +1,12 @@
 """Step 3 — 前處理參數與 Peak Picking。"""
+import math
+
 import numpy as np
 import plotly.graph_objects as go
 import streamlit as st
 
 from core import peak_picking, preprocess
+from ui._widgets import paired_range_slider, paired_slider
 
 
 def render():
@@ -15,6 +18,13 @@ def render():
 
     pp = st.session_state.params_pre
     pk = st.session_state.params_peak
+
+    wn_lo = float(np.min(wn))
+    wn_hi = float(np.max(wn))
+
+    # Backfill mask defaults for older sessions
+    for k, v in peak_picking.DEFAULTS.items():
+        pk.setdefault(k, v)
 
     ctrl_col, chart_col = st.columns([1, 3])
 
@@ -28,18 +38,26 @@ def render():
             help="Removes slowly varying baseline drift. Larger λ = smoother, more global correction. Smaller λ = more local, follows the spectrum more closely.",
         )
         if pp["baseline_on"]:
-            pp["lam"] = st.select_slider(
-                "λ (lambda)",
-                options=preprocess.LAM_OPTIONS,
-                value=pp["lam"],
-                format_func=lambda x: f"{x:.0e}",
-                help="Smoothness of the baseline. Larger = smoother baseline. Smaller = baseline follows local features.",
+            log_lam = paired_slider(
+                "log₁₀(λ)",
+                min_value=3.0,
+                max_value=9.0,
+                default=float(math.log10(max(1.0, float(pp["lam"])))),
+                step=0.5,
+                key="pp_loglam",
+                help="Smoothness of the baseline (log scale). λ = 10^value. Larger = smoother baseline. Smaller = baseline follows local features.",
+                fmt="%.2f",
             )
-            pp["p"] = st.select_slider(
+            pp["lam"] = float(10 ** log_lam)
+            pp["p"] = paired_slider(
                 "p",
-                options=preprocess.P_OPTIONS,
-                value=pp["p"],
-                help="Asymmetry parameter. Smaller = baseline stays below peaks (ignores them more). Larger = baseline tracks the signal more symmetrically.",
+                min_value=0.001,
+                max_value=0.1,
+                default=float(pp["p"]),
+                step=0.001,
+                key="pp_p",
+                help="Asymmetry parameter. Smaller = baseline stays below peaks. Larger = baseline tracks the signal more symmetrically.",
+                fmt="%.4f",
             )
             pp["diff_order"] = st.radio(
                 "Diff Order",
@@ -59,22 +77,35 @@ def render():
         if pp["smooth_on"]:
             raw_w = int(pp["window"])
             init_w = raw_w if raw_w % 2 == 1 else raw_w + 1
-            pp["window"] = st.slider(
+            pp["window"] = paired_slider(
                 "Window Length (odd)",
-                5, 51, init_w, step=2,
+                min_value=5,
+                max_value=51,
+                default=init_w,
+                step=2,
+                key="pp_window",
                 help="Width of the smoothing window (must be odd). Larger = more noise reduction but can broaden peaks. Smaller = preserves narrow peaks but retains more noise.",
             )
-            pp["polyorder"] = st.slider(
+            pp["polyorder"] = paired_slider(
                 "Polyorder",
-                2, 5, int(pp["polyorder"]),
+                min_value=2,
+                max_value=5,
+                default=int(pp["polyorder"]),
+                step=1,
+                key="pp_polyorder",
                 help="Polynomial order for curve fitting within the window. Higher = better peak shape preservation. Lower = more aggressive smoothing.",
             )
 
         st.markdown("---")
         st.subheader("Peak Picking")
 
-        pk["prominence_pct"] = st.slider(
-            "Prominence (%)", 0.05, 20.0, float(pk["prominence_pct"]), step=0.05,
+        pk["prominence_pct"] = paired_slider(
+            "Prominence (%)",
+            min_value=0.05,
+            max_value=20.0,
+            default=float(pk["prominence_pct"]),
+            step=0.05,
+            key="pk_prom",
             help="Minimum peak prominence relative to the signal range. Larger = only tall, distinct peaks detected. Smaller = more peaks detected (including noise peaks).",
         )
         pk["use_min_height"] = st.checkbox(
@@ -90,8 +121,13 @@ def render():
                 step=0.5,
                 help="Minimum absolute intensity of a peak (inverted signal). Larger = only stronger peaks accepted. Smaller = weaker peaks also included.",
             )
-        pk["min_spacing"] = st.slider(
-            "Min Peak Spacing (cm⁻¹)", 0.0, 50.0, float(pk["min_spacing"]), step=1.0,
+        pk["min_spacing"] = paired_slider(
+            "Min Peak Spacing (cm⁻¹)",
+            min_value=0.0,
+            max_value=50.0,
+            default=float(pk["min_spacing"]),
+            step=1.0,
+            key="pk_spacing",
             help="Minimum distance between two adjacent peaks. Larger = fewer peaks (nearby peaks merged into one). Smaller = more peaks detected separately.",
         )
         pk["use_fwhm_filter"] = st.checkbox(
@@ -100,23 +136,79 @@ def render():
             help="Filter peaks by full-width at half-maximum (peak width). Excludes peaks that are too narrow or too broad.",
         )
         if pk["use_fwhm_filter"]:
-            fmin, fmax = st.slider(
+            fmin, fmax = paired_range_slider(
                 "FWHM Range (cm⁻¹)",
-                0.0,
-                500.0,
-                (float(pk["fwhm_min"]), float(pk["fwhm_max"])),
+                min_value=0.0,
+                max_value=500.0,
+                default=(float(pk["fwhm_min"]), float(pk["fwhm_max"])),
                 step=1.0,
-                help="Allowed range of FWHM values. Peaks outside this range are excluded. Adjust to target peaks of a specific width.",
+                key="pk_fwhm",
+                help="Allowed range of FWHM values. Peaks outside this range are excluded.",
             )
             pk["fwhm_min"] = fmin
             pk["fwhm_max"] = fmax
+
+        st.markdown("---")
+        st.subheader("Masks")
+        st.caption("Exclude wavenumber regions from peak picking (e.g. atmospheric CO₂).")
+
+        pk["masks_enable"] = st.checkbox(
+            "Enable Masks",
+            value=pk.get("masks_enable", False),
+            help="When enabled, peaks within the specified wavenumber ranges are removed from the peak list.",
+        )
+        if pk["masks_enable"]:
+            pk["masks_n"] = st.radio(
+                "Number of Masks",
+                [1, 2],
+                index=int(pk.get("masks_n", 1)) - 1,
+                horizontal=True,
+            )
+            for i in range(1, int(pk["masks_n"]) + 1):
+                st.markdown(f"**Mask {i}**")
+                cur_lo = float(pk.get(f"mask{i}_lo", 0.0))
+                cur_hi = float(pk.get(f"mask{i}_hi", 0.0))
+                if not (wn_lo <= cur_lo <= wn_hi):
+                    cur_lo = wn_lo
+                if not (wn_lo <= cur_hi <= wn_hi):
+                    cur_hi = wn_lo
+                mc1, mc2 = st.columns(2)
+                with mc1:
+                    pk[f"mask{i}_lo"] = st.number_input(
+                        f"Mask {i} min (cm⁻¹)",
+                        value=cur_lo,
+                        min_value=wn_lo,
+                        max_value=wn_hi,
+                        step=1.0,
+                        key=f"mask_{i}_lo_input",
+                    )
+                with mc2:
+                    pk[f"mask{i}_hi"] = st.number_input(
+                        f"Mask {i} max (cm⁻¹)",
+                        value=cur_hi,
+                        min_value=wn_lo,
+                        max_value=wn_hi,
+                        step=1.0,
+                        key=f"mask_{i}_hi_input",
+                    )
 
     # ── Right: chart ──────────────────────────────────────────────────────────
     with chart_col:
         result = preprocess.run(wn, tr, pp)
         peaks_df = peak_picking.pick_peaks(wn, result["y_processed"], pk)
+        masks = peak_picking.active_masks(pk)
 
         fig = go.Figure()
+        for lo, hi in masks:
+            fig.add_vrect(
+                x0=lo, x1=hi,
+                fillcolor="rgba(160,160,160,0.25)",
+                line_width=0,
+                layer="below",
+                annotation_text="Mask",
+                annotation_position="top left",
+                annotation_font_size=10,
+            )
         fig.add_trace(
             go.Scatter(
                 x=wn, y=tr, mode="lines", name="原始 %T",

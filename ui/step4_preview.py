@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from core import matching, peak_picking, preprocess
+from ui._widgets import paired_slider
 
 
 def render():
@@ -24,29 +25,34 @@ def render():
     with st.expander("Matching Parameters (auto-recalculates)", expanded=True):
         c1, c2, c3, c4, c5 = st.columns(5)
         with c1:
-            pm["w_f"] = st.slider(
-                "w_f (FWHM Weight)", 0.0, 1.0, float(pm["w_f"]), step=0.05,
+            pm["w_f"] = paired_slider(
+                "w_f (FWHM Weight)", 0.0, 1.0, float(pm["w_f"]), 0.05, key="pm_wf",
                 help="Weight of FWHM similarity in the total score. Larger = FWHM match is more important. Smaller = peak position match dominates.",
+                ratio=(2, 1),
             )
         with c2:
-            pm["scale"] = st.slider(
-                "Tolerance Scale", 0.5, 3.0, float(pm["scale"]), step=0.1,
+            pm["scale"] = paired_slider(
+                "Tolerance Scale", 0.5, 3.0, float(pm["scale"]), 0.1, key="pm_scale",
                 help="Scales all matching tolerance windows proportionally. Larger = more lenient matching (wider search radius). Smaller = stricter position and FWHM requirements.",
+                ratio=(2, 1),
             )
         with c3:
-            pm["threshold"] = st.slider(
-                "Score Threshold", 0.0, 1.0, float(pm["threshold"]), step=0.05,
+            pm["threshold"] = paired_slider(
+                "Score Threshold", 0.0, 1.0, float(pm["threshold"]), 0.05, key="pm_thr",
                 help="Minimum score required for a candidate to be auto-assigned in Step 5. Larger = only high-confidence matches are auto-assigned. Smaller = more peaks receive an auto-assignment.",
+                ratio=(2, 1),
             )
         with c4:
-            pm["k_position"] = st.slider(
-                "k_position", 1.0, 5.0, float(pm["k_position"]), step=0.5,
+            pm["k_position"] = paired_slider(
+                "k_position", 1.0, 5.0, float(pm["k_position"]), 0.5, key="pm_kpos",
                 help="Hard cutoff multiplier for position scoring. Score drops linearly beyond the tolerance window and reaches zero at k_position × tolerance. Larger = wider acceptable range. Smaller = score drops to zero sooner.",
+                ratio=(2, 1),
             )
         with c5:
-            pm["k_fwhm"] = st.slider(
-                "k_fwhm", 1.0, 6.0, float(pm["k_fwhm"]), step=0.5,
+            pm["k_fwhm"] = paired_slider(
+                "k_fwhm", 1.0, 6.0, float(pm["k_fwhm"]), 0.5, key="pm_kfwhm",
                 help="Hard cutoff multiplier for FWHM scoring. Score drops linearly beyond the FWHM tolerance and reaches zero at k_fwhm × tolerance. Larger = wider acceptable FWHM range. Smaller = stricter FWHM requirement.",
+                ratio=(2, 1),
             )
 
     # ── Run matching ──────────────────────────────────────────────────────────

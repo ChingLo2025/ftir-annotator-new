@@ -17,7 +17,27 @@ DEFAULTS = {
     "use_fwhm_filter": True,
     "fwhm_min": 2.0,
     "fwhm_max": 250.0,
+    "masks_enable": False,
+    "masks_n": 1,
+    "mask1_lo": 0.0,
+    "mask1_hi": 0.0,
+    "mask2_lo": 0.0,
+    "mask2_hi": 0.0,
 }
+
+
+def active_masks(params: dict) -> list[tuple[float, float]]:
+    """Return list of (lo, hi) for enabled, valid masks."""
+    if not params.get("masks_enable"):
+        return []
+    n = int(params.get("masks_n", 0))
+    out: list[tuple[float, float]] = []
+    for i in range(1, n + 1):
+        lo = float(params.get(f"mask{i}_lo", 0.0))
+        hi = float(params.get(f"mask{i}_hi", 0.0))
+        if hi > lo:
+            out.append((lo, hi))
+    return out
 
 _COLUMNS = ["peak_id", "position", "intensity", "fwhm", "prominence"]
 
@@ -59,6 +79,14 @@ def pick_peaks(wavenumber, y_processed, params: dict) -> pd.DataFrame:
 
     if params["use_fwhm_filter"]:
         df = df[(df["fwhm"] >= params["fwhm_min"]) & (df["fwhm"] <= params["fwhm_max"])]
+
+    masks = active_masks(params)
+    if masks and len(df) > 0:
+        pos = df["position"].values
+        keep = np.ones(len(df), dtype=bool)
+        for lo, hi in masks:
+            keep &= ~((pos >= lo) & (pos <= hi))
+        df = df[keep]
 
     df = df.sort_values("position", ascending=False).reset_index(drop=True)
     df.insert(0, "peak_id", df.index + 1)
